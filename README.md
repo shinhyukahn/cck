@@ -223,19 +223,18 @@ cck/
 │   ├── commands.json            # Claude Code 커맨드 DB (한국어 설명 포함)
 │   ├── aliases.json             # 한국어 자연어 키워드 → 커맨드 ID 매핑
 │   └── recipes.json             # 멀티스텝 워크플로우 레시피 정의
+├── commands/
+│   ├── cheat.md                 # /cck:cheat — 즉시 치트시트 출력
+│   ├── setup.md                 # /cck:setup — CLAUDE.md 템플릿 생성
+│   └── templates/
+│       ├── web-app.md
+│       ├── api-server.md
+│       ├── data-pipeline.md
+│       ├── monorepo.md
+│       └── side-project.md
 ├── skills/
-│   ├── korean-autopilot/        # 백그라운드 자동 활성화 스킬
-│   │   └── SKILL.md
-│   ├── cheat/                   # /cck:cheat — 즉시 치트시트 출력
-│   │   └── SKILL.md
-│   └── setup/                   # /cck:setup — CLAUDE.md 템플릿 생성
-│       ├── SKILL.md
-│       └── templates/
-│           ├── web-app.md
-│           ├── api-server.md
-│           ├── data-pipeline.md
-│           ├── monorepo.md
-│           └── side-project.md
+│   └── korean-autopilot/        # 백그라운드 자동 활성화 스킬
+│       └── SKILL.md
 └── agents/
     └── korean-helper.md         # 한국어 서브에이전트 정의
 ```
@@ -354,15 +353,17 @@ Commands with `session_executable: true` are executed directly in the session. C
 
 ```
 cck/
-├── .claude-plugin/plugin.json   # Manifest
+├── .claude-plugin/plugin.json      # Manifest
 ├── data/
-│   ├── commands.json            # Command DB
-│   ├── aliases.json             # NL keyword mappings
-│   └── recipes.json             # Workflow recipes
+│   ├── commands.json               # Command DB
+│   ├── aliases.json                # NL keyword mappings
+│   └── recipes.json                # Workflow recipes
+├── commands/                       # User-invocable plugin commands
+│   ├── cheat.md                    # /cck:cheat
+│   ├── setup.md                    # /cck:setup
+│   └── templates/                  # CLAUDE.md templates for setup
 ├── skills/
-│   ├── korean-autopilot/SKILL.md  # Auto-activated background skill
-│   ├── cheat/SKILL.md             # /cck:cheat
-│   └── setup/SKILL.md + templates # /cck:setup
+│   └── korean-autopilot/SKILL.md   # Auto-activated background skill
 └── agents/korean-helper.md
 ```
 

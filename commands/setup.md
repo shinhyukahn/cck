@@ -25,11 +25,11 @@ argument-hint: "[프로젝트 유형]"
 ## 템플릿 위치
 
 각 유형별 템플릿 파일:
-- 웹앱: [templates/web-app.md](../skills/setup/templates/web-app.md)
-- API 서버: [templates/api-server.md](../skills/setup/templates/api-server.md)
-- 데이터 파이프라인: [templates/data-pipeline.md](../skills/setup/templates/data-pipeline.md)
-- 모노레포: [templates/monorepo.md](../skills/setup/templates/monorepo.md)
-- 사이드 프로젝트: [templates/side-project.md](../skills/setup/templates/side-project.md)
+- 웹앱: [templates/web-app.md](templates/web-app.md)
+- API 서버: [templates/api-server.md](templates/api-server.md)
+- 데이터 파이프라인: [templates/data-pipeline.md](templates/data-pipeline.md)
+- 모노레포: [templates/monorepo.md](templates/monorepo.md)
+- 사이드 프로젝트: [templates/side-project.md](templates/side-project.md)
 
 ## 동작
 
