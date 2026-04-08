@@ -50,7 +50,21 @@ recipes.json → 멀티스텝 워크플로우 참조
 
 - [Claude Code](https://claude.ai/code) 최신 버전
 
-### 방법 1: 영구 설치 (권장)
+### 방법 1: 마켓플레이스 등록 후 설치 (가장 간편)
+
+먼저 마켓플레이스를 등록합니다 (최초 1회):
+
+```bash
+claude plugin marketplace add shinhyukahn/cck
+```
+
+이후 설치:
+
+```bash
+claude plugin install cck@shinhyukahn
+```
+
+### 방법 2: 영구 설치 (Git Clone)
 
 ```bash
 git clone https://github.com/shinhyukahn/cck.git ~/.claude-plugins/cck
@@ -59,14 +73,14 @@ claude plugin install ~/.claude-plugins/cck
 
 이후 모든 Claude Code 세션에서 자동으로 활성화됩니다.
 
-### 방법 2: 특정 세션에서만 사용
+### 방법 3: 특정 세션에서만 사용
 
 ```bash
 git clone https://github.com/shinhyukahn/cck.git ~/.claude-plugins/cck
 claude --plugin-dir ~/.claude-plugins/cck
 ```
 
-### 방법 3: 로컬 클론 후 즉시 테스트
+### 방법 4: 로컬 클론 후 즉시 테스트
 
 ```bash
 git clone https://github.com/shinhyukahn/cck.git

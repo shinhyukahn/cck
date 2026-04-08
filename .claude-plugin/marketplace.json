@@ -1,0 +1,19 @@
+{
+  "name": "shinhyukahn",
+  "owner": {
+    "name": "shinhyukahn",
+    "url": "https://github.com/shinhyukahn"
+  },
+  "plugins": [
+    {
+      "name": "cck",
+      "source": {
+        "source": "github",
+        "repo": "shinhyukahn/cck"
+      },
+      "description": "Claude Code를 한국어로 자연스럽게 사용할 수 있게 해주는 플러그인. Transparent Korean language plugin for Claude Code.",
+      "version": "1.0.0",
+      "keywords": ["korean", "한국어", "autopilot"]
+    }
+  ]
+}
