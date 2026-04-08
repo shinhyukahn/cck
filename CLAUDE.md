@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-CCK(Claude Code Korean)는 한국어 사용자가 Claude Code를 자연어로 사용할 수 있게 해주는 **투명한 플러그인**이다. 이 저장소는 현재 설계 문서 단계이며, 실제 구현물로 발전시키는 것이 목표다.
+CCK(Claude Code Korean)는 한국어 사용자가 Claude Code를 자연어로 사용할 수 있게 해주는 **투명한 플러그인**이다. 구현 완료 상태이며, 지속적으로 커맨드 DB와 레시피를 확장하는 것이 목표다.
 
-- 핵심 설계 문서: `cck-plugin-design-v3.md`
-- 참고 선행 버전: V2 → V3으로 개념 전환 (명시적 커맨드 학습 → 투명한 자동 감지)
+- 설계 원칙: 투명성 (사용자가 CCK 존재를 몰라도 됨), 명시적 호출 최소화
+- 핵심 동작: `korean-autopilot` 스킬이 한국어를 감지해서 자동 라우팅
 
-## 목표 디렉토리 구조 (구현 시 기준)
+## 디렉토리 구조
 
 ```
 cck/
