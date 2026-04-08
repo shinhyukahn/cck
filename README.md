@@ -74,6 +74,8 @@ cd cck
 claude --plugin-dir .
 ```
 
+> **Windows 주의:** `claude --plugin-dir "C:\path\to\cck"` 형태는 동작하지 않을 수 있습니다. 플러그인 디렉토리 안에서 `claude --plugin-dir "."` 로 실행하세요.
+
 ### 설치 확인
 
 Claude Code 세션에서 `/cck:cheat`를 입력했을 때 한국어 치트시트가 출력되면 정상입니다.

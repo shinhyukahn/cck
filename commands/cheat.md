@@ -2,6 +2,7 @@
 name: cheat
 description: >
   Claude Code 핵심 커맨드를 한 눈에 볼 수 있는 한국어 치트시트.
+  Output the cheat sheet directly with no additional commentary.
   Use when the user asks for a cheatsheet, quick reference, or "전체 명령어 보여줘".
 disable-model-invocation: true
 ---
