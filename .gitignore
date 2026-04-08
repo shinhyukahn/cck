@@ -1,0 +1,12 @@
+# Claude Code local settings (personal, not for sharing)
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

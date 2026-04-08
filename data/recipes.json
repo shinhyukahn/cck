@@ -1,0 +1,406 @@
+{
+  "version": "1.0.0",
+  "recipes": [
+    {
+      "id": "code-review",
+      "title": "코드 리뷰 받기",
+      "category": "일상",
+      "difficulty": "beginner",
+      "description": "Claude에게 현재 변경사항에 대한 코드 리뷰를 받는 워크플로우",
+      "prerequisites": [],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude plugin install code-review@claude-plugins-official",
+          "description": "코드 리뷰 플러그인 설치 (최초 1회)",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "/review",
+          "description": "리뷰 실행",
+          "type": "claude-command"
+        },
+        {
+          "order": 3,
+          "action": "/diff",
+          "description": "변경사항 인터랙티브 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "/security-review",
+          "description": "(선택) 보안 취약점 분석",
+          "type": "claude-command",
+          "optional": true
+        }
+      ],
+      "tips": [
+        "CLAUDE.md에 코드 스타일 가이드를 적어두면 리뷰 품질이 올라감",
+        "/compact로 컨텍스트 정리 후 리뷰하면 더 정확함"
+      ],
+      "related_recipes": ["pr-workflow"]
+    },
+    {
+      "id": "bug-hunting",
+      "title": "버그 잡기",
+      "category": "일상",
+      "difficulty": "beginner",
+      "description": "에러 로그를 Claude에게 넘겨서 디버깅",
+      "prerequisites": [],
+      "steps": [
+        {
+          "order": 1,
+          "action": "cat error.log | claude -p \"이 에러 분석해줘\"",
+          "description": "에러 로그를 파이프로 넘기기",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "또는: claude 세션에서 에러 메시지 직접 붙여넣기",
+          "description": "인터랙티브하게 디버깅",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 3,
+          "action": "/diff",
+          "description": "Claude가 수정한 코드 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "/rewind",
+          "description": "수정이 마음에 안 들면 되돌리기",
+          "type": "claude-command",
+          "optional": true
+        }
+      ],
+      "tips": [
+        "--effort high로 복잡한 버그를 더 깊이 분석하게 할 수 있음",
+        "\"이 에러가 왜 발생하는지 단계별로 추적해줘\" 같은 구체적 지시가 효과적"
+      ],
+      "related_recipes": ["refactoring"]
+    },
+    {
+      "id": "refactoring",
+      "title": "리팩토링",
+      "category": "일상",
+      "difficulty": "intermediate",
+      "description": "메인 코드를 보호하면서 안전하게 리팩토링",
+      "prerequisites": ["git 저장소"],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude -w refactor-name",
+          "description": "독립 워크트리에서 시작 — 메인 브랜치 보호",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "\"이 모듈을 단일 책임 원칙에 맞게 분리해줘\"",
+          "description": "리팩토링 목표를 구체적으로 지시",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 3,
+          "action": "/diff",
+          "description": "변경사항 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "/rewind",
+          "description": "마음에 안 들면 특정 시점으로 복구",
+          "type": "claude-command",
+          "optional": true
+        },
+        {
+          "order": 5,
+          "action": "\"테스트 돌려서 깨진 거 없는지 확인해줘\"",
+          "description": "리팩토링 후 기존 기능 검증",
+          "type": "claude-prompt"
+        }
+      ],
+      "tips": [
+        "CLAUDE.md에 아키텍처 규칙을 적어두면 일관성 있는 리팩토링 가능",
+        "큰 리팩토링은 --effort high 추천"
+      ],
+      "related_recipes": ["code-review", "test-writing"]
+    },
+    {
+      "id": "test-writing",
+      "title": "테스트 작성",
+      "category": "일상",
+      "difficulty": "beginner",
+      "description": "기존 코드에 대한 테스트를 Claude에게 자동 작성시키기",
+      "prerequisites": ["테스트 프레임워크 설치"],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude",
+          "description": "세션 시작",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "\"src/auth/ 디렉토리의 유닛 테스트 작성해줘. 커버리지 80% 이상 목표\"",
+          "description": "테스트 대상과 목표를 구체적으로 지정",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 3,
+          "action": "(Claude가 자동으로 테스트 실행 → 실패 시 수정 반복)",
+          "description": "Claude가 테스트를 작성하고 실행까지 처리",
+          "type": "auto"
+        },
+        {
+          "order": 4,
+          "action": "/diff",
+          "description": "생성된 테스트 파일 확인",
+          "type": "claude-command"
+        }
+      ],
+      "tips": [
+        "CLAUDE.md에 테스트 프레임워크와 컨벤션을 명시하면 품질 올라감",
+        "\"엣지 케이스도 포함해줘\" 같은 지시를 추가하면 더 견고한 테스트 생성"
+      ],
+      "related_recipes": ["refactoring", "code-review"]
+    },
+    {
+      "id": "pr-workflow",
+      "title": "PR 만들어서 올리기",
+      "category": "프로젝트관리",
+      "difficulty": "intermediate",
+      "description": "Claude로 작업 → 커밋 → PR 생성까지 한번에",
+      "prerequisites": ["gh CLI 설치", "git 저장소"],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude -w feature-name",
+          "description": "독립 워크트리에서 작업 시작",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "\"로그인 API에 rate limiting 추가해줘\"",
+          "description": "작업 내용을 자연어로 지시",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 3,
+          "action": "/diff",
+          "description": "변경사항 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "\"커밋하고 PR 만들어줘. PR 설명도 작성해줘\"",
+          "description": "Claude가 커밋 + PR 생성 + 설명 작성까지 수행",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 5,
+          "action": "/pr-comments",
+          "description": "(이후) PR에 달린 코멘트 확인",
+          "type": "claude-command",
+          "optional": true
+        }
+      ],
+      "tips": [
+        "--tmux 옵션으로 여러 PR 작업을 병렬로 돌릴 수 있음",
+        "CLAUDE.md에 커밋 메시지 컨벤션을 적어두면 일관된 커밋 메시지 생성"
+      ],
+      "related_recipes": ["parallel-tasks", "code-review"]
+    },
+    {
+      "id": "parallel-tasks",
+      "title": "여러 작업 병렬 처리",
+      "category": "프로젝트관리",
+      "difficulty": "advanced",
+      "description": "git worktree를 활용해서 Claude 세션 여러 개를 동시에 돌림",
+      "prerequisites": ["tmux 설치", "git 저장소"],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude -w auth-refactor --tmux",
+          "description": "첫 번째 작업 시작",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "claude -w fix-tests --tmux",
+          "description": "두 번째 작업 시작 (새 tmux 패인)",
+          "type": "terminal"
+        },
+        {
+          "order": 3,
+          "action": "각 세션에서 별도 작업 지시",
+          "description": "각 tmux 패인에서 독립적으로 작업",
+          "type": "claude-prompt"
+        },
+        {
+          "order": 4,
+          "action": "/diff (각 세션에서)",
+          "description": "각 작업의 변경사항 확인 후 메인에 머지",
+          "type": "claude-command"
+        }
+      ],
+      "tips": [
+        "3~4개가 적당. 너무 많으면 API rate limit에 걸림",
+        "작업 끝나면 git worktree remove <이름>으로 정리"
+      ],
+      "related_recipes": ["pr-workflow"]
+    },
+    {
+      "id": "project-setup",
+      "title": "프로젝트 초기 셋업",
+      "category": "프로젝트관리",
+      "difficulty": "beginner",
+      "description": "새 프로젝트에서 CLAUDE.md를 설정하고 Claude Code 환경 잡기",
+      "prerequisites": [],
+      "steps": [
+        {
+          "order": 1,
+          "action": "/cck:setup",
+          "description": "프로젝트 유형에 맞는 한국어 CLAUDE.md 템플릿 생성",
+          "type": "claude-command"
+        },
+        {
+          "order": 2,
+          "action": "CLAUDE.md에서 [TODO] 항목 채우기",
+          "description": "프로젝트 구조, 코딩 컨벤션, 주의사항 직접 작성",
+          "type": "manual"
+        },
+        {
+          "order": 3,
+          "action": "claude",
+          "description": "Claude Code 세션 시작 — CLAUDE.md를 자동으로 읽음",
+          "type": "terminal"
+        },
+        {
+          "order": 4,
+          "action": "/permissions",
+          "description": "프로젝트에 맞는 권한 규칙 설정",
+          "type": "claude-command"
+        }
+      ],
+      "tips": [
+        "CLAUDE.md는 .gitignore에 넣지 마 — 팀원들도 공유해서 써야 함",
+        "처음에 완벽하게 안 써도 됨 — 점진적으로 보강"
+      ],
+      "related_recipes": ["code-review"]
+    },
+    {
+      "id": "mcp-setup",
+      "title": "MCP 서버 연결",
+      "category": "고급",
+      "difficulty": "advanced",
+      "description": "외부 도구를 MCP로 Claude에 연결",
+      "prerequisites": ["MCP 서버 준비"],
+      "steps": [
+        {
+          "order": 1,
+          "action": "claude mcp add <이름> -- <실행커맨드>",
+          "description": "MCP 서버 등록",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": "/mcp",
+          "description": "연결 상태 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 3,
+          "action": "\"DB에서 users 테이블 스키마 확인해줘\"",
+          "description": "연결된 도구 사용 지시",
+          "type": "claude-prompt"
+        }
+      ],
+      "tips": [
+        "프로젝트별: claude mcp add --scope project",
+        "--mcp-config으로 JSON 파일에서 여러 서버 한번에 로드 가능"
+      ],
+      "related_recipes": ["project-setup"]
+    },
+    {
+      "id": "subagent-usage",
+      "title": "서브에이전트 활용",
+      "category": "고급",
+      "difficulty": "advanced",
+      "description": "커스텀 서브에이전트를 만들어서 반복 작업 자동화",
+      "prerequisites": [],
+      "steps": [
+        {
+          "order": 1,
+          "action": "mkdir -p .claude/agents",
+          "description": "에이전트 디렉토리 생성",
+          "type": "terminal"
+        },
+        {
+          "order": 2,
+          "action": ".claude/agents/reviewer.md 파일 작성",
+          "description": "에이전트의 역할, 도구 제한, 프롬프트 정의",
+          "type": "manual"
+        },
+        {
+          "order": 3,
+          "action": "/agents",
+          "description": "등록된 에이전트 목록 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "\"reviewer 에이전트로 이 PR 검토해줘\"",
+          "description": "특정 에이전트에게 작업 위임",
+          "type": "claude-prompt"
+        }
+      ],
+      "tips": [
+        "context: fork로 독립 컨텍스트에서 실행하면 메인 대화를 오염시키지 않음",
+        "/batch는 내부적으로 서브에이전트 활용 — 먼저 써보고 커스텀으로 넘어가기 추천"
+      ],
+      "related_recipes": ["parallel-tasks"]
+    },
+    {
+      "id": "context-management",
+      "title": "컨텍스트 관리",
+      "category": "일상",
+      "difficulty": "beginner",
+      "description": "대화가 길어졌을 때 컨텍스트를 효율적으로 관리",
+      "prerequisites": [],
+      "steps": [
+        {
+          "order": 1,
+          "action": "/context",
+          "description": "현재 컨텍스트 사용량 시각화",
+          "type": "claude-command"
+        },
+        {
+          "order": 2,
+          "action": "/cost",
+          "description": "토큰 사용량 확인",
+          "type": "claude-command"
+        },
+        {
+          "order": 3,
+          "action": "/compact \"핵심 작업 내용만 남겨줘\"",
+          "description": "불필요한 대화 제거하고 핵심만 보존",
+          "type": "claude-command"
+        },
+        {
+          "order": 4,
+          "action": "/clear",
+          "description": "(대안) 완전히 새로 시작",
+          "type": "claude-command",
+          "optional": true
+        }
+      ],
+      "tips": [
+        "Claude 응답이 느려지면 컨텍스트가 가득 찬 신호",
+        "중요한 결정사항은 CLAUDE.md에 기록해두면 /clear 해도 유지됨"
+      ],
+      "related_recipes": ["project-setup"]
+    }
+  ]
+}

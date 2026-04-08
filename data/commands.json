@@ -1,0 +1,1278 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-04-08",
+  "commands": [
+    {
+      "id": "compact",
+      "type": "slash",
+      "name": "/compact",
+      "aliases": [],
+      "args": "[지시사항]",
+      "summary_ko": "대화 내용을 요약해서 컨텍스트를 줄임",
+      "detail_ko": "긴 대화를 하다 보면 컨텍스트 윈도우가 차서 성능이 떨어짐. /compact를 쓰면 대화 내용을 요약해서 공간을 확보함. 지시사항으로 보존할 내용을 지정할 수 있음.",
+      "when_to_use": [
+        "대화가 길어져서 Claude 응답이 느려질 때",
+        "특정 주제에만 집중하고 싶을 때",
+        "컨텍스트 공간 부족 경고가 나올 때"
+      ],
+      "examples": [
+        "/compact",
+        "/compact \"테스트 관련 내용만 남겨줘\""
+      ],
+      "cautions": [
+        "요약 과정에서 세부 내용이 손실될 수 있음",
+        "중요한 맥락은 CLAUDE.md에 기록해두는 게 안전"
+      ],
+      "related": ["clear", "context", "cost"],
+      "tags": ["정리", "컨텍스트", "요약", "압축", "대화정리", "토큰절약", "느려졌을때"],
+      "category": "대화관리",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "clear",
+      "type": "slash",
+      "name": "/clear",
+      "aliases": ["/reset", "/new"],
+      "args": "",
+      "summary_ko": "대화 기록을 완전히 초기화하고 컨텍스트를 비움",
+      "detail_ko": "현재 대화를 모두 지우고 완전히 새로 시작함. /compact가 요약이라면, /clear는 완전 초기화. 되돌릴 수 없으므로 주의.",
+      "when_to_use": [
+        "완전히 새로운 주제로 시작할 때",
+        "컨텍스트를 깔끔하게 비우고 싶을 때",
+        "이전 대화 내용이 더 이상 필요 없을 때"
+      ],
+      "examples": ["/clear", "/reset", "/new"],
+      "cautions": [
+        "대화 내용이 모두 사라지며 되돌릴 수 없음",
+        "중요한 내용은 /export로 저장하거나 CLAUDE.md에 기록해두기"
+      ],
+      "related": ["compact", "export"],
+      "tags": ["초기화", "새로시작", "대화삭제", "리셋", "새대화"],
+      "category": "대화관리",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "config",
+      "type": "slash",
+      "name": "/config",
+      "aliases": ["/settings"],
+      "args": "",
+      "summary_ko": "테마, 모델, 출력 스타일 등 환경설정 인터페이스 열기",
+      "detail_ko": "Claude Code의 테마, 사용 모델, 출력 스타일, 에디터 모드 등 각종 설정을 조정할 수 있는 인터랙티브 설정창을 열어줌.",
+      "when_to_use": [
+        "테마나 색상 테마를 바꾸고 싶을 때",
+        "기본 모델을 변경하고 싶을 때",
+        "에디터 모드(Vim/일반)를 바꾸고 싶을 때",
+        "출력 스타일을 조정하고 싶을 때"
+      ],
+      "examples": ["/config", "/settings"],
+      "cautions": [],
+      "related": ["theme", "model", "status"],
+      "tags": ["설정", "환경설정", "테마", "모델변경", "환경"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "context",
+      "type": "slash",
+      "name": "/context",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "현재 컨텍스트 사용량을 컬러 그리드로 시각화",
+      "detail_ko": "컨텍스트 윈도우 사용량을 시각적으로 보여줌. 용량 경고, 메모리 bloat, 무거운 도구 사용 현황도 확인 가능.",
+      "when_to_use": [
+        "컨텍스트가 얼마나 남았는지 확인할 때",
+        "응답이 느려진 원인을 파악할 때",
+        "토큰 사용 현황을 한눈에 보고 싶을 때"
+      ],
+      "examples": ["/context"],
+      "cautions": [],
+      "related": ["compact", "cost", "clear"],
+      "tags": ["컨텍스트", "사용량", "토큰", "확인", "시각화"],
+      "category": "대화관리",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "copy",
+      "type": "slash",
+      "name": "/copy",
+      "aliases": [],
+      "args": "[N]",
+      "summary_ko": "마지막 응답을 클립보드에 복사",
+      "detail_ko": "가장 최근 Claude 응답을 클립보드에 복사함. 숫자 N을 넘기면 N번째 이전 응답을 복사. 코드 블록이 있으면 특정 블록만 선택해서 복사할 수 있는 인터랙티브 피커가 뜸. SSH 환경에서는 w를 눌러 파일로 저장 가능.",
+      "when_to_use": [
+        "Claude의 응답을 다른 곳에 붙여넣고 싶을 때",
+        "생성된 코드 블록 중 특정 부분만 복사할 때",
+        "이전 응답을 다시 복사하고 싶을 때"
+      ],
+      "examples": ["/copy", "/copy 2"],
+      "cautions": ["SSH 환경에서는 클립보드가 아닌 파일로 저장하는 게 더 안정적"],
+      "related": ["export"],
+      "tags": ["복사", "클립보드", "코드복사", "응답복사"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "cost",
+      "type": "slash",
+      "name": "/cost",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "현재 세션의 토큰 사용량과 비용 통계 확인",
+      "detail_ko": "현재 대화에서 사용한 토큰 수와 예상 비용을 보여줌. 구독 플랜에 따라 표시 방식이 다를 수 있음.",
+      "when_to_use": [
+        "토큰을 얼마나 썼는지 확인할 때",
+        "비용이 걱정될 때",
+        "컨텍스트 효율을 파악할 때"
+      ],
+      "examples": ["/cost"],
+      "cautions": [],
+      "related": ["context", "compact", "usage"],
+      "tags": ["비용", "토큰", "사용량", "얼마", "요금"],
+      "category": "대화관리",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "exit",
+      "type": "slash",
+      "name": "/exit",
+      "aliases": ["/quit"],
+      "args": "",
+      "summary_ko": "Claude Code CLI 종료",
+      "detail_ko": "현재 Claude Code 세션을 종료함. 대화는 자동으로 저장되어 나중에 -c 또는 -r로 이어서 할 수 있음.",
+      "when_to_use": [
+        "Claude Code를 종료할 때",
+        "세션을 끝낼 때"
+      ],
+      "examples": ["/exit", "/quit"],
+      "cautions": ["대화 내용은 자동 저장되므로 걱정 없음"],
+      "related": ["continue-flag", "resume"],
+      "tags": ["종료", "나가기", "끝내기", "quit"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "export",
+      "type": "slash",
+      "name": "/export",
+      "aliases": [],
+      "args": "[파일명]",
+      "summary_ko": "현재 대화를 텍스트 파일로 내보내기",
+      "detail_ko": "현재 대화 전체를 텍스트로 내보냄. 파일명을 지정하면 바로 저장, 없으면 클립보드 복사 또는 파일 저장 다이얼로그가 뜸.",
+      "when_to_use": [
+        "대화 기록을 보관하고 싶을 때",
+        "/clear 전에 중요한 내용을 저장할 때",
+        "대화를 공유해야 할 때"
+      ],
+      "examples": ["/export", "/export conversation.txt"],
+      "cautions": [],
+      "related": ["copy", "clear"],
+      "tags": ["내보내기", "저장", "대화저장", "기록"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "feedback",
+      "type": "slash",
+      "name": "/feedback",
+      "aliases": ["/bug"],
+      "args": "[report]",
+      "summary_ko": "Claude Code에 대한 피드백 또는 버그 신고",
+      "detail_ko": "Claude Code 개발팀에 피드백을 보내거나 버그를 신고할 수 있음.",
+      "when_to_use": [
+        "버그를 발견했을 때",
+        "기능 제안을 하고 싶을 때",
+        "문제를 신고할 때"
+      ],
+      "examples": ["/feedback", "/bug"],
+      "cautions": [],
+      "related": ["doctor"],
+      "tags": ["피드백", "버그신고", "제안", "신고"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "help",
+      "type": "slash",
+      "name": "/help",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "사용 가능한 커맨드와 도움말 표시",
+      "detail_ko": "Claude Code에서 사용할 수 있는 커맨드 목록과 기본 도움말을 보여줌.",
+      "when_to_use": [
+        "커맨드가 뭐가 있는지 모를 때",
+        "Claude Code 사용법을 알고 싶을 때"
+      ],
+      "examples": ["/help"],
+      "cautions": [],
+      "related": ["skills"],
+      "tags": ["도움말", "커맨드목록", "안내", "도움", "명령어"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "memory",
+      "type": "slash",
+      "name": "/memory",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "CLAUDE.md 메모리 파일 편집 및 auto-memory 관리",
+      "detail_ko": "CLAUDE.md 메모리 파일을 편집하고, auto-memory 기능을 켜고 끄고, 자동 저장된 메모리 항목을 확인할 수 있음.",
+      "when_to_use": [
+        "CLAUDE.md를 수정하고 싶을 때",
+        "auto-memory 기능을 관리할 때",
+        "저장된 메모리 내용을 확인할 때"
+      ],
+      "examples": ["/memory"],
+      "cautions": [],
+      "related": ["init", "permissions"],
+      "tags": ["메모리", "CLAUDE.md", "기억", "설정"],
+      "category": "프로젝트",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "permissions",
+      "type": "slash",
+      "name": "/permissions",
+      "aliases": ["/allowed-tools"],
+      "args": "",
+      "summary_ko": "도구 사용 권한 규칙(허용/확인/거부)을 관리",
+      "detail_ko": "Claude가 어떤 도구를 사용할 때 자동으로 허용하거나, 물어보거나, 거부할지 규칙을 설정함. 작업 디렉토리와 auto mode 거부 이력도 확인 가능.",
+      "when_to_use": [
+        "Claude의 파일 접근 권한을 제한하고 싶을 때",
+        "특정 커맨드를 자동으로 허용하고 싶을 때",
+        "보안 규칙을 설정할 때"
+      ],
+      "examples": ["/permissions", "/allowed-tools"],
+      "cautions": ["잘못된 권한 설정은 작업에 방해가 될 수 있음"],
+      "related": ["init", "memory"],
+      "tags": ["권한", "보안", "허용", "도구", "제한"],
+      "category": "프로젝트",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "plugin",
+      "type": "slash",
+      "name": "/plugin",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Claude Code 플러그인 관리",
+      "detail_ko": "설치된 플러그인을 확인하고, 새 플러그인을 설치하거나 제거할 수 있음.",
+      "when_to_use": [
+        "플러그인을 설치/제거할 때",
+        "설치된 플러그인 목록을 볼 때"
+      ],
+      "examples": ["/plugin"],
+      "cautions": [],
+      "related": ["skills"],
+      "tags": ["플러그인", "설치", "확장", "plugin"],
+      "category": "프로젝트",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "resume",
+      "type": "slash",
+      "name": "/resume",
+      "aliases": ["/continue"],
+      "args": "[세션명 또는 ID]",
+      "summary_ko": "이전 대화 세션을 이어서 시작",
+      "detail_ko": "세션 이름이나 ID로 이전 대화를 불러올 수 있음. 인자 없이 쓰면 세션 선택 피커가 열림.",
+      "when_to_use": [
+        "특정 이름의 세션을 재개할 때",
+        "여러 세션 중 고르고 싶을 때"
+      ],
+      "examples": ["/resume", "/resume auth-refactor", "/continue"],
+      "cautions": ["세션 내에서 실행되는 버전. 터미널 실행은 claude -r <이름>"],
+      "related": ["continue-flag", "resume-flag"],
+      "tags": ["이어서", "세션재개", "복구", "계속"],
+      "category": "시작",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "review",
+      "type": "slash",
+      "name": "/review",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "코드 리뷰 실행 (code-review 플러그인 필요)",
+      "detail_ko": "현재 변경사항에 대한 코드 리뷰를 실행함. v2.1.90 이후로는 공식 플러그인 설치가 필요함: claude plugin install code-review@claude-plugins-official",
+      "when_to_use": [
+        "커밋 전에 코드 품질을 점검할 때",
+        "코드 리뷰를 자동으로 받고 싶을 때"
+      ],
+      "examples": ["/review"],
+      "cautions": [
+        "code-review 플러그인 설치 필요: claude plugin install code-review@claude-plugins-official"
+      ],
+      "related": ["diff", "security-review", "simplify"],
+      "tags": ["리뷰", "코드리뷰", "점검", "검토", "품질"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "security-review",
+      "type": "slash",
+      "name": "/security-review",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "현재 브랜치의 변경사항에서 보안 취약점 분석",
+      "detail_ko": "git diff를 분석해서 인젝션, 인증 이슈, 데이터 노출 등 보안 위험을 찾아줌.",
+      "when_to_use": [
+        "보안에 민감한 코드를 변경했을 때",
+        "PR 올리기 전 보안 점검할 때",
+        "인증, API, DB 관련 코드를 수정했을 때"
+      ],
+      "examples": ["/security-review"],
+      "cautions": ["git 저장소 필요"],
+      "related": ["review", "diff"],
+      "tags": ["보안", "취약점", "보안점검", "security", "인젝션"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "simplify",
+      "type": "slash",
+      "name": "/simplify",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "변경된 코드의 품질을 검토하고 개선",
+      "detail_ko": "최근 변경된 코드를 분석해서 재사용성, 품질, 효율성 관점에서 개선점을 찾아 수정해줌.",
+      "when_to_use": [
+        "코드 품질을 높이고 싶을 때",
+        "중복이나 불필요한 복잡도를 줄이고 싶을 때",
+        "리팩토링 후 마무리 점검할 때"
+      ],
+      "examples": ["/simplify"],
+      "cautions": [],
+      "related": ["review", "security-review"],
+      "tags": ["단순화", "품질개선", "리팩토링", "정리"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "skills",
+      "type": "slash",
+      "name": "/skills",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "사용 가능한 스킬(커스텀 커맨드) 목록 표시",
+      "detail_ko": "현재 세션에서 사용할 수 있는 모든 스킬(빌트인 + 플러그인 + 커스텀)을 보여줌.",
+      "when_to_use": [
+        "어떤 스킬이 설치되어 있는지 확인할 때",
+        "커스텀 커맨드 목록을 볼 때"
+      ],
+      "examples": ["/skills"],
+      "cautions": [],
+      "related": ["help", "plugin"],
+      "tags": ["스킬", "커맨드목록", "커스텀커맨드", "플러그인"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "agents",
+      "type": "slash",
+      "name": "/agents",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "서브에이전트 설정을 관리",
+      "detail_ko": "설정된 서브에이전트 목록을 확인하고 관리할 수 있음.",
+      "when_to_use": [
+        "커스텀 에이전트 목록을 확인할 때",
+        "에이전트 설정을 관리할 때"
+      ],
+      "examples": ["/agents"],
+      "cautions": [],
+      "related": ["skills", "batch"],
+      "tags": ["에이전트", "서브에이전트", "자동화"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "branch",
+      "type": "slash",
+      "name": "/branch",
+      "aliases": ["/fork"],
+      "args": "[이름]",
+      "summary_ko": "현재 대화를 이 시점에서 분기(브랜치)함",
+      "detail_ko": "현재 대화 시점을 유지하면서 새로운 브랜치 대화를 만듦. 같은 맥락에서 다른 방향을 시도할 때 유용.",
+      "when_to_use": [
+        "같은 맥락에서 여러 방향으로 실험할 때",
+        "현재 대화를 보존하면서 새 시도를 할 때"
+      ],
+      "examples": ["/branch", "/branch try-another-approach", "/fork"],
+      "cautions": [],
+      "related": ["rewind", "worktree-flag"],
+      "tags": ["브랜치", "분기", "대화분기", "fork"],
+      "category": "대화관리",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "btw",
+      "type": "slash",
+      "name": "/btw",
+      "aliases": [],
+      "args": "<질문>",
+      "summary_ko": "대화 흐름에 영향 없이 사이드 질문하기",
+      "detail_ko": "현재 작업 중인 대화를 방해하지 않고 빠른 사이드 질문을 할 수 있음. 응답이 대화 기록에 추가되지 않음.",
+      "when_to_use": [
+        "작업 중에 간단한 질문을 하고 싶을 때",
+        "대화 맥락을 방해하지 않고 뭔가 물어볼 때"
+      ],
+      "examples": ["/btw 이 함수 이름 뭐가 좋아?", "/btw TypeScript에서 never 타입이 뭐야?"],
+      "cautions": ["응답이 대화 기록에 남지 않음"],
+      "related": [],
+      "tags": ["사이드질문", "빠른질문", "btw", "짧은질문"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "color",
+      "type": "slash",
+      "name": "/color",
+      "aliases": [],
+      "args": "[색상|default]",
+      "summary_ko": "현재 세션의 프롬프트 바 색상 설정",
+      "detail_ko": "Claude Code 프롬프트 바의 색상을 변경함. 여러 세션을 동시에 사용할 때 구분하기 좋음. 색상: red, blue, green, yellow, purple, orange, pink, cyan. default로 초기화.",
+      "when_to_use": [
+        "여러 Claude Code 세션을 구분하고 싶을 때",
+        "프롬프트 바 색상을 바꾸고 싶을 때"
+      ],
+      "examples": ["/color blue", "/color red", "/color default"],
+      "cautions": [],
+      "related": ["theme"],
+      "tags": ["색상", "색깔", "프롬프트", "구분"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "doctor",
+      "type": "slash",
+      "name": "/doctor",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Claude Code 설치 및 설정 상태 진단",
+      "detail_ko": "Claude Code의 설치 상태, 설정, 연결 등을 점검해서 문제를 찾아줌.",
+      "when_to_use": [
+        "Claude Code가 이상하게 동작할 때",
+        "설치나 설정에 문제가 있는지 확인할 때",
+        "업데이트 후 동작 확인할 때"
+      ],
+      "examples": ["/doctor"],
+      "cautions": [],
+      "related": ["status", "feedback"],
+      "tags": ["진단", "점검", "상태확인", "문제해결"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "install-github-app",
+      "type": "slash",
+      "name": "/install-github-app",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "레포지토리에 Claude GitHub Actions 앱 설치",
+      "detail_ko": "GitHub 레포에 Claude Actions 앱을 연결하는 과정을 단계별로 안내해줌. PR 리뷰, CI 연동 등 GitHub 자동화에 활용.",
+      "when_to_use": [
+        "GitHub 레포에 Claude를 연동하고 싶을 때",
+        "PR 자동 리뷰를 설정하고 싶을 때",
+        "CI/CD에 Claude를 통합할 때"
+      ],
+      "examples": ["/install-github-app"],
+      "cautions": ["GitHub 계정과 레포 접근 권한 필요"],
+      "related": ["install-slack-app"],
+      "tags": ["깃허브", "github", "actions", "연동", "CI"],
+      "category": "프로젝트",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "install-slack-app",
+      "type": "slash",
+      "name": "/install-slack-app",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Claude Slack 앱 설치 (OAuth 브라우저 흐름)",
+      "detail_ko": "Slack 워크스페이스에 Claude 앱을 설치함. 브라우저가 열리며 OAuth 인증을 완료해야 함.",
+      "when_to_use": [
+        "Slack에서 Claude를 사용하고 싶을 때",
+        "팀 Slack 워크스페이스에 Claude를 연동할 때"
+      ],
+      "examples": ["/install-slack-app"],
+      "cautions": ["Slack 워크스페이스 관리자 권한 필요할 수 있음"],
+      "related": ["install-github-app"],
+      "tags": ["슬랙", "slack", "연동", "설치"],
+      "category": "프로젝트",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "mcp",
+      "type": "slash",
+      "name": "/mcp",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "MCP 서버 연결 상태와 OAuth 인증 관리",
+      "detail_ko": "연결된 MCP(Model Context Protocol) 서버 목록을 확인하고 인증 상태를 관리함.",
+      "when_to_use": [
+        "MCP 서버 연결 상태를 확인할 때",
+        "MCP OAuth 인증을 갱신할 때",
+        "연결된 외부 도구를 확인할 때"
+      ],
+      "examples": ["/mcp"],
+      "cautions": [],
+      "related": ["plugin"],
+      "tags": ["MCP", "연결", "서버", "외부도구"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": true
+    },
+    {
+      "id": "pr-comments",
+      "type": "slash",
+      "name": "/pr-comments",
+      "aliases": [],
+      "args": "[PR번호 또는 URL]",
+      "summary_ko": "GitHub PR 코멘트 가져오기 (v2.1.91 이전 버전)",
+      "detail_ko": "현재 브랜치의 PR을 자동 감지하거나, PR 번호/URL을 넘겨서 코멘트를 가져옴. gh CLI 필요. v2.1.91부터는 제거되어 Claude에게 직접 요청해야 함.",
+      "when_to_use": [
+        "PR에 달린 리뷰 코멘트를 Claude와 함께 처리할 때 (v2.1.90 이하)"
+      ],
+      "examples": ["/pr-comments", "/pr-comments 123", "/pr-comments https://github.com/org/repo/pull/123"],
+      "cautions": [
+        "v2.1.91부터 제거됨 — 'PR 코멘트 확인해줘'라고 Claude에게 직접 말하면 됨",
+        "gh CLI 설치 필요"
+      ],
+      "related": ["review", "diff"],
+      "tags": ["PR", "코멘트", "깃허브", "리뷰코멘트"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "status",
+      "type": "slash",
+      "name": "/status",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "버전, 모델, 계정, 연결 상태 확인",
+      "detail_ko": "Claude Code 현재 버전, 사용 중인 모델, 계정 정보, 연결 상태를 보여줌. Claude 응답 중에도 실행 가능.",
+      "when_to_use": [
+        "현재 사용 중인 모델을 확인할 때",
+        "버전이나 계정 정보를 확인할 때",
+        "연결 상태를 점검할 때"
+      ],
+      "examples": ["/status"],
+      "cautions": [],
+      "related": ["doctor", "config"],
+      "tags": ["상태", "버전", "모델확인", "계정", "연결"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "theme",
+      "type": "slash",
+      "name": "/theme",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Claude Code 색상 테마 변경",
+      "detail_ko": "라이트/다크, 색각이상 접근성 테마, 터미널 기본 색상을 쓰는 ANSI 테마 등 다양한 테마 중 선택할 수 있음.",
+      "when_to_use": [
+        "눈이 피로할 때 다크/라이트 모드 전환",
+        "색각이상 접근성 테마가 필요할 때",
+        "터미널 색상 팔레트에 맞게 조정할 때"
+      ],
+      "examples": ["/theme"],
+      "cautions": [],
+      "related": ["config", "color"],
+      "tags": ["테마", "색상", "다크모드", "라이트모드", "접근성"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "usage",
+      "type": "slash",
+      "name": "/usage",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "플랜 사용 한도와 rate limit 상태 확인",
+      "detail_ko": "현재 구독 플랜의 사용량 한도와 현재 rate limit 상태를 보여줌.",
+      "when_to_use": [
+        "사용 한도가 얼마나 남았는지 확인할 때",
+        "rate limit에 걸린 이유를 파악할 때",
+        "플랜 업그레이드가 필요한지 판단할 때"
+      ],
+      "examples": ["/usage"],
+      "cautions": [],
+      "related": ["cost", "context"],
+      "tags": ["사용량", "한도", "rate limit", "플랜"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "vim",
+      "type": "slash",
+      "name": "/vim",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Vim 편집 모드 토글 (v2.1.91 이전 버전)",
+      "detail_ko": "입력창에서 Vim 키바인딩과 일반 모드를 전환함. v2.1.92부터는 제거되어 /config → Editor mode 에서 설정해야 함.",
+      "when_to_use": [
+        "Vim 키바인딩으로 입력하고 싶을 때 (v2.1.91 이하)"
+      ],
+      "examples": ["/vim"],
+      "cautions": ["v2.1.92부터 제거됨 — /config에서 Editor mode 설정으로 변경됨"],
+      "related": ["config"],
+      "tags": ["vim", "에디터모드", "키바인딩"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "voice",
+      "type": "slash",
+      "name": "/voice",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "음성 받아쓰기(push-to-talk) 토글",
+      "detail_ko": "음성으로 Claude에게 지시할 수 있는 push-to-talk 음성 받아쓰기 기능을 켜고 끔. Claude.ai 계정 필요.",
+      "when_to_use": [
+        "타이핑 대신 말로 지시하고 싶을 때",
+        "손이 자유롭지 않을 때"
+      ],
+      "examples": ["/voice"],
+      "cautions": ["Claude.ai 계정 로그인 필요"],
+      "related": [],
+      "tags": ["음성", "말하기", "voice", "받아쓰기"],
+      "category": "유틸리티",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "debug",
+      "type": "slash",
+      "name": "/debug",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "코드 디버깅을 도와주는 번들 스킬",
+      "detail_ko": "코드의 버그를 체계적으로 찾고 수정하는 것을 도와주는 빌트인 스킬. /debug를 실행하면 디버깅 워크플로우를 시작함.",
+      "when_to_use": [
+        "버그를 체계적으로 추적하고 싶을 때",
+        "에러 원인 파악이 어려울 때"
+      ],
+      "examples": ["/debug"],
+      "cautions": [],
+      "related": ["review", "diff"],
+      "tags": ["디버그", "버그", "오류", "에러", "문제해결"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "plan",
+      "type": "slash",
+      "name": "/plan",
+      "aliases": [],
+      "args": "[설명]",
+      "summary_ko": "플랜 모드로 진입 — 실행 없이 계획만 세움",
+      "detail_ko": "Claude가 코드를 직접 수정하지 않고 계획만 세우는 플랜 모드로 전환. 설명을 인자로 넘기면 바로 그 작업에 대한 계획을 시작.",
+      "when_to_use": [
+        "구현 전에 접근법을 먼저 계획하고 싶을 때",
+        "Claude가 코드를 수정하기 전에 계획을 검토하고 싶을 때",
+        "큰 변경 전 안전하게 계획 단계 먼저"
+      ],
+      "examples": ["/plan", "/plan auth 버그 수정", "/plan 전체 아키텍처 리팩토링"],
+      "cautions": ["플랜 모드에서는 파일을 직접 수정하지 않음"],
+      "related": ["batch", "worktree-flag"],
+      "tags": ["계획", "플랜", "설계", "안전", "검토"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": true
+    },
+    {
+      "id": "continue-flag",
+      "type": "flag",
+      "name": "-c (--continue)",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "마지막 대화를 이어서 계속함",
+      "detail_ko": "현재 디렉토리에서 가장 최근에 했던 대화를 불러와서 이어서 작업.",
+      "when_to_use": [
+        "어제 하던 작업을 이어서 할 때",
+        "실수로 터미널을 닫았을 때",
+        "이전 맥락을 유지하며 추가 작업할 때"
+      ],
+      "examples": [
+        "claude -c",
+        "claude -c -p \"타입 에러 확인해줘\""
+      ],
+      "cautions": [
+        "현재 디렉토리 기준으로 마지막 세션을 찾음",
+        "다른 디렉토리의 세션은 -r로 직접 지정해야 함"
+      ],
+      "related": ["resume", "resume-flag"],
+      "tags": ["이어서", "계속", "이어하기", "복구", "세션"],
+      "category": "시작",
+      "difficulty": "beginner",
+      "session_executable": false
+    },
+    {
+      "id": "diff",
+      "type": "slash",
+      "name": "/diff",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "커밋되지 않은 변경사항과 턴별 diff를 인터랙티브하게 확인",
+      "detail_ko": "현재 git diff와 Claude가 각 턴에서 변경한 내용을 비교할 수 있는 인터랙티브 뷰어. 좌우 화살표로 전체 diff와 개별 턴을 전환, 상하로 파일 탐색.",
+      "when_to_use": [
+        "Claude가 수정한 내용을 확인할 때",
+        "커밋 전에 변경사항을 검토할 때",
+        "어떤 턴에서 뭘 바꿨는지 추적할 때"
+      ],
+      "examples": ["/diff"],
+      "cautions": ["git 저장소 안에서만 동작"],
+      "related": ["rewind", "review"],
+      "tags": ["변경사항", "diff", "확인", "리뷰", "수정내역", "바뀐것"],
+      "category": "코드작업",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "rewind",
+      "type": "slash",
+      "name": "/rewind",
+      "aliases": ["/checkpoint"],
+      "args": "",
+      "summary_ko": "대화와 코드를 이전 시점으로 되돌림",
+      "detail_ko": "Claude가 작업한 내용이 마음에 안 들 때, 특정 시점으로 대화와 파일 상태를 모두 되돌릴 수 있음.",
+      "when_to_use": [
+        "Claude의 수정이 마음에 안 들 때",
+        "다른 접근법으로 다시 시도하고 싶을 때",
+        "실수로 잘못된 방향으로 진행됐을 때"
+      ],
+      "examples": ["/rewind"],
+      "cautions": [
+        "되돌리면 해당 시점 이후의 작업은 사라짐",
+        "git 저장소 필요"
+      ],
+      "related": ["diff", "branch"],
+      "tags": ["되돌리기", "복구", "취소", "이전으로", "롤백", "체크포인트"],
+      "category": "대화관리",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "worktree-flag",
+      "type": "flag",
+      "name": "--worktree (-w)",
+      "aliases": [],
+      "args": "[이름]",
+      "summary_ko": "독립된 git worktree에서 Claude를 실행",
+      "detail_ko": "메인 브랜치를 건드리지 않고 별도의 작업 공간에서 Claude를 돌림. 이름 없이 쓰면 자동 생성.",
+      "when_to_use": [
+        "큰 리팩토링을 안전하게 시킬 때",
+        "여러 작업을 동시에 돌릴 때",
+        "실험적 변경을 해보고 싶을 때"
+      ],
+      "examples": [
+        "claude -w feature-auth",
+        "claude -w feature-auth --tmux"
+      ],
+      "cautions": [
+        "git 저장소 안에서만 동작",
+        "worktree는 .claude/worktrees/ 아래에 생성됨",
+        "작업 끝나면 git worktree remove로 정리"
+      ],
+      "related": ["tmux-flag", "diff", "continue-flag"],
+      "tags": ["워크트리", "브랜치", "병렬", "독립", "안전", "리팩토링"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": false
+    },
+    {
+      "id": "effort-flag",
+      "type": "flag",
+      "name": "--effort",
+      "aliases": [],
+      "args": "low|medium|high|max",
+      "summary_ko": "Claude가 얼마나 깊이 생각할지 설정",
+      "detail_ko": "low는 빠르지만 얕게, high는 느리지만 깊게 분석. max는 Opus 4.6 전용. 세션 내에서는 /effort 슬래시 커맨드로도 변경 가능.",
+      "when_to_use": [
+        "복잡한 버그를 깊이 분석할 때 (high)",
+        "간단한 질문에 빠르게 답받고 싶을 때 (low)",
+        "아키텍처 설계 같은 고난도 작업 (max)"
+      ],
+      "examples": [
+        "claude --effort high",
+        "/effort high",
+        "/effort low"
+      ],
+      "cautions": [
+        "max는 Opus 4.6에서만 사용 가능",
+        "높을수록 토큰 소비가 많아짐"
+      ],
+      "related": ["model", "cost", "fast"],
+      "tags": ["깊게", "빠르게", "성능", "품질", "생각", "분석"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "init",
+      "type": "slash",
+      "name": "/init",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "프로젝트에 CLAUDE.md 가이드 파일 생성",
+      "detail_ko": "프로젝트 루트에 CLAUDE.md를 만들어서 Claude가 프로젝트 맥락을 이해하도록 설정. CLAUDE_CODE_NEW_INIT=1 환경변수를 설정하면 스킬, 훅, 메모리 파일 설정까지 안내하는 인터랙티브 플로우 실행.",
+      "when_to_use": [
+        "새 프로젝트에서 Claude Code를 처음 설정할 때",
+        "기존 프로젝트에 Claude Code를 도입할 때"
+      ],
+      "examples": ["/init"],
+      "cautions": [
+        "이미 CLAUDE.md가 있으면 덮어쓸 수 있음",
+        "한국어 템플릿이 필요하면 /cck:설정 추천"
+      ],
+      "related": ["memory", "permissions"],
+      "tags": ["초기화", "설정", "셋업", "CLAUDE.md", "시작"],
+      "category": "프로젝트",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "model",
+      "type": "slash",
+      "name": "/model",
+      "aliases": [],
+      "args": "[모델명]",
+      "summary_ko": "AI 모델 선택 또는 변경",
+      "detail_ko": "현재 세션에서 사용할 모델을 변경. 변경은 즉시 적용됨. 지원 모델: sonnet, opus 또는 전체 모델 ID.",
+      "when_to_use": [
+        "더 강력한 모델이 필요할 때 (opus)",
+        "비용을 절약하고 싶을 때 (sonnet)",
+        "현재 모델의 응답이 만족스럽지 않을 때"
+      ],
+      "examples": [
+        "/model",
+        "claude --model opus"
+      ],
+      "cautions": ["모델에 따라 비용이 다름"],
+      "related": ["effort", "cost", "fast"],
+      "tags": ["모델", "변경", "opus", "sonnet", "바꾸기"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "batch",
+      "type": "slash",
+      "name": "/batch",
+      "aliases": [],
+      "args": "<지시사항>",
+      "summary_ko": "대규모 변경을 병렬 에이전트로 처리",
+      "detail_ko": "코드베이스를 분석해서 작업을 5~30개 단위로 쪼갠 후 병렬 실행.",
+      "when_to_use": [
+        "대규모 마이그레이션 (프레임워크, 라이브러리 교체)",
+        "코드베이스 전체에 일괄 변경이 필요할 때",
+        "여러 파일에 동일한 패턴 적용"
+      ],
+      "examples": [
+        "/batch src/ 디렉토리를 React에서 Vue로 마이그레이션",
+        "/batch 모든 API 엔드포인트에 rate limiting 추가"
+      ],
+      "cautions": [
+        "git 저장소 필요",
+        "많은 토큰을 소비함",
+        "각 단위가 독립적이어야 효과적"
+      ],
+      "related": ["worktree-flag", "simplify"],
+      "tags": ["대규모", "병렬", "마이그레이션", "일괄", "자동화"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": true
+    },
+    {
+      "id": "fast",
+      "type": "slash",
+      "name": "/fast",
+      "aliases": [],
+      "args": "[on|off]",
+      "summary_ko": "빠른 모드 토글 (속도 우선)",
+      "detail_ko": "응답 속도를 우선시하는 모드. 간단한 질문이나 빠른 수정에 유용.",
+      "when_to_use": [
+        "간단한 질문에 빠르게 답받고 싶을 때",
+        "사소한 코드 수정을 빠르게 할 때"
+      ],
+      "examples": ["/fast on", "/fast off"],
+      "cautions": ["복잡한 작업에는 품질이 떨어질 수 있음"],
+      "related": ["effort", "model"],
+      "tags": ["빠르게", "속도", "패스트"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": true
+    },
+    {
+      "id": "print-flag",
+      "type": "flag",
+      "name": "-p (--print)",
+      "aliases": [],
+      "args": "<질문>",
+      "summary_ko": "인터랙티브 모드 없이 응답만 출력하고 종료",
+      "detail_ko": "Claude에게 질문을 하고 응답만 받은 뒤 바로 종료함. 파이핑이나 스크립트 자동화에 유용. cat file | claude -p \"분석해줘\" 형태로도 사용 가능.",
+      "when_to_use": [
+        "Claude를 스크립트에서 사용할 때",
+        "파일 내용을 파이프로 넘겨 분석할 때",
+        "대화 없이 단일 질문만 할 때"
+      ],
+      "examples": [
+        "claude -p \"이 코드 설명해줘\"",
+        "cat error.log | claude -p \"이 에러 분석해줘\"",
+        "claude -c -p \"타입 에러 확인해줘\""
+      ],
+      "cautions": [],
+      "related": ["continue-flag", "resume-flag"],
+      "tags": ["파이프", "출력", "스크립트", "자동화", "단일질문"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": false
+    },
+    {
+      "id": "resume-flag",
+      "type": "flag",
+      "name": "-r (--resume)",
+      "aliases": [],
+      "args": "<세션명 또는 ID>",
+      "summary_ko": "특정 세션을 이름이나 ID로 재개",
+      "detail_ko": "세션 이름이나 UUID로 이전 대화를 불러와서 재개함. 인자 없이 쓰면 세션 선택 피커가 열림.",
+      "when_to_use": [
+        "여러 세션 중 특정 세션을 이어서 할 때",
+        "이름 붙인 세션을 다시 열 때"
+      ],
+      "examples": [
+        "claude -r auth-refactor",
+        "claude --resume my-feature-work"
+      ],
+      "cautions": ["세션 이름은 -n 또는 /rename으로 지정 가능"],
+      "related": ["continue-flag", "name-flag"],
+      "tags": ["이어서", "세션재개", "복구", "특정세션"],
+      "category": "시작",
+      "difficulty": "beginner",
+      "session_executable": false
+    },
+    {
+      "id": "name-flag",
+      "type": "flag",
+      "name": "-n (--name)",
+      "aliases": [],
+      "args": "<이름>",
+      "summary_ko": "세션에 이름을 붙여서 나중에 찾기 쉽게",
+      "detail_ko": "현재 세션에 이름을 부여함. 나중에 claude -r <이름>으로 재개 가능. 프롬프트 바와 터미널 제목에도 표시됨.",
+      "when_to_use": [
+        "중요한 작업 세션을 나중에 재개할 때",
+        "여러 세션을 구분하기 쉽게 관리할 때"
+      ],
+      "examples": [
+        "claude -n \"auth-refactor\"",
+        "claude -n \"feature-payment\""
+      ],
+      "cautions": [],
+      "related": ["resume-flag", "continue-flag"],
+      "tags": ["세션이름", "이름붙이기", "관리"],
+      "category": "시작",
+      "difficulty": "beginner",
+      "session_executable": false
+    },
+    {
+      "id": "model-flag",
+      "type": "flag",
+      "name": "--model",
+      "aliases": [],
+      "args": "<모델명>",
+      "summary_ko": "세션 시작 시 사용할 모델 지정",
+      "detail_ko": "Claude Code를 실행할 때 모델을 미리 지정함. sonnet, opus 단축명 또는 전체 모델 ID 사용 가능.",
+      "when_to_use": [
+        "처음부터 특정 모델로 시작하고 싶을 때",
+        "스크립트에서 모델을 지정해서 실행할 때"
+      ],
+      "examples": [
+        "claude --model claude-opus-4-6",
+        "claude --model sonnet",
+        "claude --model opus"
+      ],
+      "cautions": [],
+      "related": ["effort-flag", "model"],
+      "tags": ["모델지정", "opus", "sonnet", "시작모델"],
+      "category": "설정",
+      "difficulty": "beginner",
+      "session_executable": false
+    },
+    {
+      "id": "add-dir-flag",
+      "type": "flag",
+      "name": "--add-dir",
+      "aliases": [],
+      "args": "<경로>",
+      "summary_ko": "추가 작업 디렉토리를 Claude에게 허용",
+      "detail_ko": "Claude가 파일을 읽고 수정할 수 있는 추가 디렉토리를 지정함. 여러 개 지정 가능. .claude/ 설정은 이 디렉토리에서는 탐색되지 않음.",
+      "when_to_use": [
+        "여러 디렉토리에 걸친 프로젝트에서 작업할 때",
+        "모노레포에서 여러 패키지를 동시에 수정할 때"
+      ],
+      "examples": [
+        "claude --add-dir ../apps ../lib",
+        "claude --add-dir /path/to/shared-utils"
+      ],
+      "cautions": ["지정한 경로가 실제로 존재해야 함"],
+      "related": ["worktree-flag"],
+      "tags": ["디렉토리", "추가경로", "파일접근", "멀티디렉토리"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": false
+    },
+    {
+      "id": "chrome-flag",
+      "type": "flag",
+      "name": "--chrome",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "Chrome 브라우저 통합 활성화 (웹 자동화/테스트)",
+      "detail_ko": "Claude가 Chrome 브라우저를 제어해서 웹 자동화, 스크래핑, 테스트 등을 수행할 수 있게 함.",
+      "when_to_use": [
+        "웹 자동화 작업을 시킬 때",
+        "브라우저 테스트를 자동화할 때",
+        "웹 스크래핑이 필요할 때"
+      ],
+      "examples": [
+        "claude --chrome",
+        "claude --chrome \"이 웹사이트 로그인 자동화해줘\""
+      ],
+      "cautions": ["Chrome이 설치되어 있어야 함"],
+      "related": [],
+      "tags": ["크롬", "브라우저", "웹자동화", "테스트"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "tmux-flag",
+      "type": "flag",
+      "name": "--tmux",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "worktree 세션을 tmux로 열기 (병렬 작업)",
+      "detail_ko": "--worktree와 함께 사용하면 별도 tmux 세션에서 Claude를 실행함. iTerm2에서는 네이티브 패인 사용. 클래식 tmux를 원하면 --tmux=classic.",
+      "when_to_use": [
+        "여러 작업을 동시에 병렬로 실행할 때",
+        "각 worktree를 독립 tmux 창에서 관리할 때"
+      ],
+      "examples": [
+        "claude -w feature-auth --tmux",
+        "claude -w fix-tests --tmux"
+      ],
+      "cautions": [
+        "tmux가 설치되어 있어야 함",
+        "--worktree와 함께 사용해야 함"
+      ],
+      "related": ["worktree-flag"],
+      "tags": ["tmux", "병렬", "동시작업", "창분할"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "dangerously-skip-permissions-flag",
+      "type": "flag",
+      "name": "--dangerously-skip-permissions",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "모든 권한 확인을 건너뛰고 자동 실행 (주의 필요)",
+      "detail_ko": "bypassPermissions 모드와 동일. Claude가 파일 수정, 커맨드 실행 등 모든 작업을 확인 없이 자동 수행. 자동화 환경에서 사용.",
+      "when_to_use": [
+        "완전히 자동화된 스크립트에서 사용할 때",
+        "CI/CD 파이프라인에서 사용할 때",
+        "신뢰할 수 있는 환경에서 최대한 자동화할 때"
+      ],
+      "examples": ["claude --dangerously-skip-permissions"],
+      "cautions": [
+        "모든 작업이 확인 없이 실행됨 — 신뢰할 수 있는 환경에서만 사용",
+        "프로덕션 환경에서 사용 시 매우 주의 필요"
+      ],
+      "related": ["permission-mode-flag"],
+      "tags": ["자동", "권한건너뛰기", "자동화", "CI", "위험"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "append-system-prompt-flag",
+      "type": "flag",
+      "name": "--append-system-prompt",
+      "aliases": [],
+      "args": "<텍스트>",
+      "summary_ko": "기본 시스템 프롬프트에 커스텀 지시 추가",
+      "detail_ko": "Claude의 기본 시스템 프롬프트는 유지하면서 추가 지시사항을 덧붙임. 기본 동작을 유지하면서 특정 규칙을 추가하고 싶을 때 사용.",
+      "when_to_use": [
+        "특정 언어나 스타일 규칙을 항상 따르게 할 때",
+        "세션 전체에 걸쳐 특정 지시를 유지하고 싶을 때"
+      ],
+      "examples": [
+        "claude --append-system-prompt \"항상 TypeScript로 작성해줘\"",
+        "claude --append-system-prompt \"주석은 한국어로 달아줘\""
+      ],
+      "cautions": [],
+      "related": [],
+      "tags": ["시스템프롬프트", "커스텀", "지시", "규칙추가"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "mcp-config-flag",
+      "type": "flag",
+      "name": "--mcp-config",
+      "aliases": [],
+      "args": "<파일경로>",
+      "summary_ko": "JSON 파일에서 MCP 서버를 로드",
+      "detail_ko": "MCP 서버 설정을 JSON 파일이나 JSON 문자열로 로드함. 여러 MCP 서버를 한번에 구성할 때 편리.",
+      "when_to_use": [
+        "여러 MCP 서버를 한번에 설정할 때",
+        "MCP 설정을 파일로 관리할 때",
+        "팀에서 MCP 설정을 공유할 때"
+      ],
+      "examples": [
+        "claude --mcp-config ./mcp.json",
+        "claude --mcp-config ./team-mcp-servers.json"
+      ],
+      "cautions": ["--strict-mcp-config와 함께 쓰면 이 파일 외의 MCP는 무시됨"],
+      "related": ["mcp"],
+      "tags": ["MCP", "설정파일", "서버설정"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "bare-flag",
+      "type": "flag",
+      "name": "--bare",
+      "aliases": [],
+      "args": "",
+      "summary_ko": "최소 모드 — 훅, 스킬, 플러그인, MCP 없이 빠르게 시작",
+      "detail_ko": "훅, 스킬, 플러그인, MCP 서버, auto-memory, CLAUDE.md 자동 탐색을 모두 건너뜀. 스크립트 자동화에서 빠른 시작이 필요할 때 유용. Bash, 파일 읽기/편집 도구는 사용 가능.",
+      "when_to_use": [
+        "자동화 스크립트에서 빠른 단일 질문이 필요할 때",
+        "Claude 설정 없이 기본 기능만 쓸 때",
+        "빠른 응답이 중요한 파이프라인에서"
+      ],
+      "examples": [
+        "claude --bare -p \"query\"",
+        "echo 'code' | claude --bare -p \"분석해줘\""
+      ],
+      "cautions": [
+        "CLAUDE.md, 스킬, 플러그인 등이 모두 비활성화됨",
+        "CLAUDE_CODE_SIMPLE 환경변수를 설정하는 것과 동일"
+      ],
+      "related": ["print-flag"],
+      "tags": ["최소모드", "빠른시작", "자동화", "스크립트"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "remote-flag",
+      "type": "flag",
+      "name": "--remote",
+      "aliases": [],
+      "args": "<작업설명>",
+      "summary_ko": "claude.ai에서 새 웹 세션 생성",
+      "detail_ko": "로컬 터미널 대신 claude.ai 웹에서 세션을 시작함. 작업 설명을 넘기면 해당 작업으로 시작.",
+      "when_to_use": [
+        "로컬 환경 없이 웹에서 Claude를 사용할 때",
+        "원격 환경에서 작업할 때"
+      ],
+      "examples": [
+        "claude --remote \"로그인 버그 수정해줘\"",
+        "claude --remote \"API 리팩토링\""
+      ],
+      "cautions": ["claude.ai 계정 필요"],
+      "related": [],
+      "tags": ["원격", "웹세션", "리모트", "claude.ai"],
+      "category": "고급",
+      "difficulty": "intermediate",
+      "session_executable": false
+    },
+    {
+      "id": "permission-mode-flag",
+      "type": "flag",
+      "name": "--permission-mode",
+      "aliases": [],
+      "args": "default|acceptEdits|plan|auto|bypassPermissions",
+      "summary_ko": "시작 시 권한 모드를 지정",
+      "detail_ko": "Claude Code가 시작할 때의 권한 모드를 설정함. default(기본), acceptEdits(파일편집 자동허용), plan(계획만, 실행 안 함), auto(자동), bypassPermissions(모두 허용).",
+      "when_to_use": [
+        "안전하게 계획 단계만 실행할 때 (plan)",
+        "파일 편집 확인을 자동으로 허용할 때 (acceptEdits)",
+        "자동화 환경에서 모두 자동 허용할 때 (bypassPermissions)"
+      ],
+      "examples": [
+        "claude --permission-mode plan",
+        "claude --permission-mode acceptEdits",
+        "claude --permission-mode bypassPermissions"
+      ],
+      "cautions": ["bypassPermissions는 모든 작업이 확인 없이 실행됨"],
+      "related": ["dangerously-skip-permissions-flag"],
+      "tags": ["권한모드", "자동승인", "플랜모드", "안전"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    },
+    {
+      "id": "fallback-model-flag",
+      "type": "flag",
+      "name": "--fallback-model",
+      "aliases": [],
+      "args": "<모델명>",
+      "summary_ko": "기본 모델 과부하 시 자동으로 전환할 대체 모델 지정",
+      "detail_ko": "기본 모델이 과부하 상태일 때 자동으로 폴백할 모델을 지정함. print 모드(-p)에서만 동작.",
+      "when_to_use": [
+        "자동화 스크립트에서 안정성이 중요할 때",
+        "rate limit이나 과부하 상황에서도 계속 실행해야 할 때"
+      ],
+      "examples": [
+        "claude -p --fallback-model sonnet \"query\"",
+        "claude -p --fallback-model claude-sonnet-4-6 \"분석해줘\""
+      ],
+      "cautions": ["print 모드(-p)에서만 동작"],
+      "related": ["model-flag", "print-flag"],
+      "tags": ["폴백", "대체모델", "안정성", "자동화"],
+      "category": "고급",
+      "difficulty": "advanced",
+      "session_executable": false
+    }
+  ]
+}
