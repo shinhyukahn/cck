@@ -12,7 +12,7 @@
         "repo": "shinhyukahn/cck"
       },
       "description": "Claude Code를 한국어로 자연스럽게 사용할 수 있게 해주는 플러그인. Transparent Korean language plugin for Claude Code.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "keywords": ["korean", "한국어", "autopilot"]
     }
   ]

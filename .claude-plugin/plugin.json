@@ -1,7 +1,7 @@
 {
   "name": "cck",
   "description": "Claude Code를 한국어로 자연스럽게 사용할 수 있게 해주는 플러그인. 설치만 하면 한국어 자연어로 커맨드를 찾고, 워크플로우를 따라하고, 프로젝트를 셋업할 수 있습니다. Transparent Korean language plugin for Claude Code — just install and speak Korean naturally.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "shinhyukahn",
     "url": "https://github.com/shinhyukahn"
