@@ -8,5 +8,7 @@
   },
   "repository": "https://github.com/shinhyukahn/cck",
   "license": "MIT",
-  "keywords": ["korean", "한국어", "navigator", "autopilot", "transparent"]
+  "keywords": ["korean", "한국어", "navigator", "autopilot", "transparent"],
+  "commands": "./commands/",
+  "skills": "./skills/"
 }
