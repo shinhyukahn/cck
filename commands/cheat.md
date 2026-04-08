@@ -3,7 +3,10 @@ name: cheat
 description: >
   Claude Code 핵심 커맨드를 한 눈에 볼 수 있는 한국어 치트시트.
   Use when the user asks for a cheatsheet, quick reference, or "전체 명령어 보여줘".
-disable-model-invocation: true
+---
+
+아래 내용을 그대로 출력해. 한 글자도 바꾸지 말고, 앞뒤에 아무것도 붙이지 마.
+
 ---
 
 # ⚡ Claude Code 치트시트
