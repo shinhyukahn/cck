@@ -302,6 +302,30 @@ cd cck
 claude --plugin-dir .
 ```
 
+### 데이터 정합성 검사
+
+`aliases.json`이 `commands.json`에 없는 커맨드 ID를 참조하는지 빠르게 확인:
+
+```powershell
+$commands = Get-Content -Raw -Encoding utf8 data/commands.json | ConvertFrom-Json
+$aliases = Get-Content -Raw -Encoding utf8 data/aliases.json | ConvertFrom-Json
+$ids = @{}
+foreach($c in $commands.commands){ $ids[$c.id] = $true }
+$missing = @()
+foreach($prop in $aliases.mappings.PSObject.Properties){
+  foreach($id in $prop.Value){
+    if(-not $ids.ContainsKey($id)){
+      $missing += [PSCustomObject]@{ keyword = $prop.Name; missing_id = $id }
+    }
+  }
+}
+if($missing.Count -eq 0){
+  "OK: 모든 aliases 매핑이 유효한 command id를 참조합니다."
+} else {
+  $missing | Format-Table -AutoSize
+}
+```
+
 ---
 
 ## 라이선스
